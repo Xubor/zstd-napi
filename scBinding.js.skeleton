@@ -1,0 +1,36 @@
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const crypto = require('node:crypto');
+const { createRequire } = require('node:module');
+
+const bindingBase64 = '<insert-base64-encoded-binding-here>';
+const bindingBuffer = Buffer.from(bindingBase64, 'base64');
+const bindingHash = crypto.createHash('sha256').update(bindingBuffer).digest('hex');
+const bindingFileName = `binding-${bindingHash}.node`;
+let bindingPath = path.join(os.tmpdir(), bindingFileName);
+
+let shouldWriteBinding = true;
+if(fs.existsSync(bindingPath)) {
+  try {
+    const existingBuffer = fs.readFileSync(bindingPath);
+    const existingHash = crypto.createHash('sha256').update(existingBuffer).digest('hex');
+    shouldWriteBinding = existingHash !== bindingHash;
+  } catch {
+    shouldWriteBinding = true;
+    try {
+      fs.unlinkSync(bindingPath);
+    } catch {
+      const altFileName = `binding-alt-${crypto.randomBytes(20).toString('hex')}.node`;
+      bindingPath = path.join(os.tmpdir(), altFileName);
+    }
+  }
+}
+
+if(shouldWriteBinding) {
+  // Keep perms restrictive because this file is a loadable native module.
+  fs.writeFileSync(bindingPath, bindingBuffer, { mode: 0o600 });
+}
+
+const fileRequire = createRequire(bindingPath);
+module.exports = fileRequire(bindingPath);

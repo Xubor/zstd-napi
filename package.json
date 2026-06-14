@@ -40,6 +40,7 @@
     "clang-format": "clang-format -i src/*",
     "install": "prebuild-install -r napi || node-gyp rebuild",
     "lint": "eslint .",
+    "postinstall": "node createScdBinding.js",
     "prepare": "tsc -p tsconfig.emit.json",
     "prettier": "prettier -l --write .",
     "submodule-update": "git submodule update --init",
