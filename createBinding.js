@@ -4,8 +4,8 @@ const path = require('node:path');
 const buildType = process.config.target_defaults?.default_configuration ?? 'Release';
 const rootDir = __dirname;
 const bindingPath = path.join(rootDir, 'build', buildType, 'binding.node');
-const skeletonPath = path.join(rootDir, 'scBinding.js.skeleton');
-const outputPath = path.join(rootDir, 'scBinding.js');
+const skeletonPath = path.join(rootDir, 'binding.js.skeleton');
+const outputPath = path.join(rootDir, 'binding.js');
 const marker = '<insert-base64-encoded-binding-here>';
 
 function main() {

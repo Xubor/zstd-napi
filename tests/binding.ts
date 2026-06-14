@@ -390,7 +390,7 @@ test('wrapGetDictIDFromFrame works', () => {
 
 test('loading from multiple threads works', async () => {
   async function runInWorker() {
-    const worker = new Worker('./scBinding.js');
+    const worker = new Worker('./binding.js');
     return (await events.once(worker, 'exit'))[0] as number;
   }
 
