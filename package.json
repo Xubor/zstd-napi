@@ -25,8 +25,11 @@
     "binding.gyp",
     "binding.js",
     "build_flags.gypi",
+    "ci",
+    "createScdBinding.js",
     "deps",
     "dist",
+    "scBinding.js.skeleton",
     "src"
   ],
   "binary": {
@@ -38,7 +41,7 @@
     "build": "node-gyp configure && node-gyp build",
     "ci-ignore-scripts": "npm ci --ignore-scripts",
     "clang-format": "clang-format -i src/*",
-    "install": "prebuild-install -r napi || node-gyp rebuild",
+    "install": "node ci/ensure_zstd_sources.js && (prebuild-install -r napi || node-gyp rebuild)",
     "lint": "eslint .",
     "postinstall": "node createScdBinding.js",
     "prepare": "tsc -p tsconfig.emit.json",
