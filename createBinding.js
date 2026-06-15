@@ -1,3 +1,4 @@
+// Copyright (c) 2026 Lubor Illek.
 const fs = require('node:fs');
 const path = require('node:path');
 
