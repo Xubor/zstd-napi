@@ -4,6 +4,9 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { createRequire } = require('node:module');
 
+// This package bundles binary code of the Zstandard (zstd), licensed under the BSD License.
+// Copyright (c) Meta Platforms, Inc. and affiliates.
+// See https://github.com/facebook/zstd/blob/dev/LICENSE for the full license text.
 const bindingBase64 = '<insert-base64-encoded-binding-here>';
 const bindingBuffer = Buffer.from(bindingBase64, 'base64');
 const bindingHash = crypto.createHash('sha256').update(bindingBuffer).digest('hex');
